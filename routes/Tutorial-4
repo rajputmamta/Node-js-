@@ -53,7 +53,7 @@ con.connect(function(err) {
 
 con.connect(function(err) {
   if (err) throw err;
-  con.query("SELECT * FROM customers WHERE address = 'pune'", function (err, result) {
+  con.query("SELECT * FROM customers WHERE address = 'RAjsthan'", function (err, result) {
     if (err) throw err;
     console.log(result);
   });
@@ -66,7 +66,7 @@ con.connect(function(err) {
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "DELETE FROM customers WHERE address = 'pune'";
+  var sql = "DELETE FROM customers WHERE address = 'RAjsthan'";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Number of records deleted: " + result.affectedRows);
@@ -79,7 +79,7 @@ con.connect(function(err) {
 // UPDATE....
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "UPDATE customers SET address = 'Delhi' WHERE address = 'Pune'";
+  var sql = "UPDATE customers SET address = 'Delhi' WHERE address = 'RAjsthan'";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log(result.affectedRows + " record(s) updated");
