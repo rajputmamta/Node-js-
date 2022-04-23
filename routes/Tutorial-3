@@ -16,3 +16,42 @@ app.post("/svr/students",function(req,res){
     studentData.push(newStudent);
     res.send(newStudent);
 });
+
+
+
+
+// Put method....
+
+app.put("/svr/students/:id",function(req,res){
+    let id= +req.params.id;
+    let body=req.body;
+    console.log(body);
+    let index=studentData.findIndex((st)=>st.id===id);
+    console.log(index)
+    if (index>=0){
+    let updateStudent={id:id, ...body};
+    studentData[index]=updateStudent;
+    res.send(updateStudent);
+    }
+    else{
+        res.status(404).send("no found")
+    }
+});
+
+
+
+
+
+
+// Delete.....
+
+app.delete("/svr/students/:id",function(req,res){
+    let id= +req.params.id;
+    let index=studentData.findIndex((st)=>st.id===id);
+    if(index >=0){
+    let deleteStudent=studentData.splice(index,1);
+    res.send(deleteStudent);
+    }
+    else res.status(404).send("no found")
+
+});
