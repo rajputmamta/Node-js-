@@ -1,1 +1,108 @@
 
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "mamta@123",
+  database:"firstdata"
+});
+
+
+// CREATE DATABASES....
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    con.query("CREATE DATABASE firstdata", function (err, result) {
+      if (err) throw err;
+      console.log("Database created");
+    });
+  });
+
+
+  
+  // CREATE TABLE....
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Table created");
+    });
+  });
+
+
+// CREATE TABLE.....
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    var sql = "INSERT INTO customers (name, address) VALUES ('Mamta', 'RAjsthan')";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+  });
+
+
+
+
+// SHOW specified person detele......
+
+con.connect(function(err) {
+  if (err) throw err;
+  con.query("SELECT * FROM customers WHERE address = 'pune'", function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+});
+
+
+
+
+// DELETE .....
+
+con.connect(function(err) {
+  if (err) throw err;
+  var sql = "DELETE FROM customers WHERE address = 'pune'";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Number of records deleted: " + result.affectedRows);
+  });
+});
+
+
+
+
+// UPDATE....
+con.connect(function(err) {
+  if (err) throw err;
+  var sql = "UPDATE customers SET address = 'Delhi' WHERE address = 'Pune'";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log(result.affectedRows + " record(s) updated");
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
