@@ -1,1 +1,18 @@
 
+
+
+*POST METHOD*
+
+app.post("/svr/students",function(req,res){
+    let body=req.body
+    console.log(body)
+    // studentData.push(body)
+    let maxid =studentData.reduce(
+        (acc,curr)=>(curr.id >=acc ? curr.id:acc),
+        0
+    );
+    let newid=maxid=maxid+1;
+    let newStudent={id:newid,...body};
+    studentData.push(newStudent);
+    res.send(newStudent);
+});
