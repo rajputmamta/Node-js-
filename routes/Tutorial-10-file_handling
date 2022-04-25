@@ -1,1 +1,126 @@
 
+let fs=require("fs");
+let readLine=require("readline-sync")
+
+// stat,access,read,write,append
+
+function getStat(filename){
+    console.log("stat:",filename);
+    fs.stat(filename,function(err,content){
+        if(err)console.log(err);
+        else console.log(content)
+    })
+}
+let fname="hello.txt";
+getStat(fname)
+
+
+function checkAccess(filename){
+    console.log("access",filename);
+    fs.access(filename,function(err){
+        err?console.log("Does not exist"):console.log("Exists")
+    });
+}
+
+let fname="hello.txt";
+checkAccess(fname)
+
+
+function readFile(filename){
+    console.log("readfile",filename);
+    fs.readFile(filename,"utf8",function(err,data){
+        if(err)console.log(err);
+        else console.log(data);
+    })
+}
+
+let fname="hello.txt";
+readFile(fname);
+
+
+function writeFile(filename,data){
+    console.log("writeFile",filename);
+    fs.watchFile(filename,function(err){
+        if(err)console.log(err)
+    })
+}
+
+
+
+writeFile(fname,"xyz")
+
+
+
+function appendFile(filename,data){
+    console.log("appendFile:",filename);
+    fs.appendFile(filename,data,function(err){
+        if(err)console.log(err)
+    })
+}
+
+let fname="hello.txt";
+appendFile(fname,"PQRpqr")
+
+
+
+
+
+
+
+
+
+// Exercise
+
+let fname="hello.txt";
+let fname1=readLine.question("Enter file of name:")
+let txt=readLine.question("Enter text to bo appended to file:")
+
+fs.access(fname,function(err){
+    if(err){
+        // file does not exist
+        fs.writeFile(fname,txt,function(err){
+            if(err)console.log(err);
+            else{
+                console.log("Write succesful");
+                fs.readFile(fname,"utf8",function(err1,content1){
+                    if (err1)console.log(err1);
+                    else console.log(content1);
+                });
+            }
+        })
+    }
+    else{
+        // file exists
+        fs.readFile(fname,"utf8",function(err,content){
+            if(err)console.log(err);
+            else{
+                console.log("Before::",content)
+                fs.appendFile(fname,txt,function(err){
+                    if(err)console.log(err);
+                    else{
+                        console.log("Append Successful");
+                        fs.readFile(fname,"utf8",function(err,content){
+                            if(err)console.log(err);
+                            else console.log("After::",content);
+                        })
+                    }
+                })
+            }
+        })
+    }
+})
+
+
+
+
+
+
+// fs.appendFile(fname,txt,function(err){
+//     if(err)console.log(err)
+//     else{
+//         fs.readLine(fname,"utf8",function(err,content){
+//             if(err)console.log(err);
+//             else console.log(content)
+//         })
+//     }
+// })
