@@ -1,1 +1,154 @@
 
+// let fs=require("fs");
+// let fname="hello1.txt";
+// let content=fs.promises.readFile(fname,"utf-8")
+// .then((result)=>console.log(result))
+// .catch((err)=>console.log("Got an error"));
+
+// let fs=require("fs");
+// function getStat(filename){
+//     console.log("stat",filename)
+//     fs.promises
+//     .stat(filename)
+//     .then((content)=>console.log(content))
+//     .catch((err)=>console.log(err))
+// }
+
+// function checkAccess(filename){
+//     console.log("access:",filename);
+//     fs.promises
+//     .access(filename)
+//     .then(()=>console.log("Exists"))
+//     .catch((err)=>console.log("Does not exist"));
+// }
+
+// function readFile(filename){
+//     console.log("readFile",filename)
+//     fs.promises
+//     .readFile(filename,"utf8")
+//     .then((content)=>console.log("File content::",content))
+//     .catch((err)=>console.log(err))
+// }
+
+// function writeFile(filename){
+//     console.log("writeFile",filename)
+//     fs.promises
+//     .writeFile(filename)
+//     .catch((err)=>console.log(err))
+// }
+
+// function appendFile(filename,data){
+//     console.log("appendFile",filename)
+//     fs.promises
+//     .appendFile(filename,data)
+//     .catch((err)=>console.log(err))
+// }
+
+// let fname="hello.txt";
+// getStat(fname)
+// checkAccess(fname)
+// readFile(fname)
+// writeFile(fname,"XYZxyz")
+// appendFile(fname,"123456")
+
+
+
+// EXERCISE
+
+// let fs=require("fs");
+// let readline=require("readline-sync")
+
+// fname=readline.question("Enter name of file")
+// let txt=readline.question("Enter the text to be append to file");
+
+// fs.promises.access(fname).then(()=>
+// fs.promises
+// .readFile(fname,"utf8")
+// .then((content)=>{
+//     console.log("Before::",content);
+//     fs.promises.appendFile(fname,txt).then(()=>{
+//         console.log("Append succes");
+//         fs.promises
+//         .readFile(fname,"utf8")
+//         .then((content)=>console.log("After::",content));
+//     })
+// })
+// .catch((err)=>console.log(err))
+// )
+// .catch((err)=>
+//     fs.promises.writeFile(fname,txt).then(()=>{
+//         console.log("Write sussec");
+//         fs.promises
+//         .readFile(fname,"utf8")
+//         .then((content)=>console.log(content));
+//     })
+//     .catch((err)=>console.log(err))
+// )
+
+
+
+
+
+let fs=require("fs");
+// const { stringify } = require("querystring");
+let readline=require("readline-sync");
+let fname="data.json";
+let courseData={
+    course:"Node.js",
+    students:[
+        {name:"Jack",age:25},
+        {name:"Steve",age:26},
+        {name:"Anna",age:27},
+    ],
+};
+
+function writeJson(){
+    let data=JSON.stringify(courseData);
+    fs.promises
+    .writeFile(fname,data)
+    .then(()=>console.log("Write success"))
+    .catch((err)=>console.log(err));
+}
+
+
+function enrollNewstudent(){
+    let name=readline.question("Enter name of students")
+    let age=readline.question("Enter students age")
+    let newStudent={name:name,age:age};
+    fs.promises.readFile(fname,"utf8").then((data)=>{
+        let obj=JSON.parse(data);
+        obj.students.push(newStudent);
+        let data1=JSON.stringify(obj);
+        fs.promises
+        .writeFile(fname,data1)
+        .then(()=>console.log("New student enrolled"))
+        .catch((err)=>console.log(err));
+    })
+    .catch((err)=>console.log(err));
+}
+
+function readJson(){
+    fs.promises
+    .readFile(fname,"utf8")
+    .then((data)=>{
+        console.log("In string format",data);
+        let obj=JSON.parse(data);
+        console.log(obj);
+    })
+    .catch((err)=>console.log(err));
+}
+
+
+let option=readline.question("Enter Option 1:Write 2:Enroll New Student 3:Read -")
+
+switch(option){
+    case "1":
+        writeJson();
+        break;
+    case "2":
+        enrollNewstudent();
+        break;
+    case "3":
+        readJson();
+        break;
+}
