@@ -1,1 +1,171 @@
 
+// let fs=require("fs");
+// let fname="hello.txt";
+
+// async function readFile(filename){
+//     console.log("readFile:",filename);
+//     try{
+//         let data=await fs.promises.readFile(filename,"utf8");
+//         console.log(data);
+//     }catch(err){
+//         console.log(err);
+//     }
+// }
+
+
+
+// async function writeFile(filename,txt){
+//     console.log("WriteFile:",filename);
+//     try{
+//         await fs.promises.writeFile(filename,txt);
+//         console.log("Write success");
+//     }catch (err){
+//         console.log(err)
+//     }
+// }
+
+// async function getStat(filename){
+//      try{
+//          let status=await fs.promises.stat(filename);
+//          console.log(status);
+//      }catch(err){
+//          console.log(err);
+//      }
+//  }
+
+//  async function checkAccess(filename){
+//      try{
+//          await fs.promises.access(filename);
+//          console.log("File Exists");
+//      }catch(err){
+//          console.log("File does not exist");
+//      }
+//  }
+
+//  async function appendFile(filename,txt){
+//     console.log("appendFile:",filename);
+//      try{
+//          await fs.promises.appendFile(filename,txt);
+//          console.log("Append succes");
+//      }catch(err){
+//          console.log(err);
+//      }
+//  }
+
+
+// writeFile(fname,"MMM")
+// readFile(fname);
+// getStat(fname)
+// checkAccess(fname);
+// appendFile(fname,"9999");
+
+
+
+
+
+
+
+
+
+// *Exrercise
+
+// let fs=require("fs");
+// let readline=require("readline-sync");
+// let txt=readline.question("Enter text to be append:")
+// let fname=readline.question("Enter name of file");
+
+// async function exer(filename,data){
+//     try{
+//         await fs.promises.appendFile(filename)
+//         try{
+//         let data1=await fs.promises.readFile(filename,"utf8")
+//         console.log("Before::",data1);
+//         await fs.promises.appendFile(filename,data);
+//         console.log("Append success");
+//         let data2=await fs.promises.readFile(filename,"utf8")
+//         console.log("After::",data2);
+        
+//         }catch(err){
+//             console.log(err)
+//         }
+//     }catch(err){
+    
+//         await fs.promises.writeFile(filename,data)
+//         console.log("Write success");
+//         let data3=await fs.promises.readFile(filename,"utf8")
+//         console.log(data3)
+//     }
+// }
+// exer(fname,txt);
+
+
+
+
+
+
+// second Exrercise
+
+
+let fs=require("fs");
+let readline=require("readline-sync");
+let fname="data.json";
+let courseData={
+    course:"Node.js",
+    students:[
+        {name:"Jack",age:25},
+        {name:"Steve",age:26},
+        {name:"Anna",age:27},
+    ],
+};
+
+async function writeJson(){
+    try{
+        let str=JSON.stringify(courseData);
+        await fs.promises.writeFile(fname,str);
+        console.log("Written JSON")
+    }catch(err){
+        console.log(err);
+    }
+}
+
+async function enrollNewstudent(){
+    let name=readline.question("Enter name of student:");
+    let age=readline.question("Enter age of students");
+    let newStudent={name,age:+age};
+    try{
+    let data1=await fs.promises.readFile(fname,"utf8");
+    let obj=JSON.parse(data1);
+    obj.students.push(newStudent);
+    let data2=JSON.stringify(obj);
+    await fs.promises.writeFile(fname,data2);
+    console.log("Student enrolled");
+    }catch(err){
+        console.log(err);
+    }
+}
+
+async function readJson(){
+    try{
+        let data=await fs.promises.readFile(fname,"utf8");
+        console.log("In string format:",data);
+        let obj=JSON.parse(data);
+        console.log(obj)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+let option=readline.question("Enter Option 1:Write 2:Enroll New Student 3:Read -")
+
+switch(option){
+    case "1":
+        writeJson();
+        break;
+    case "2":
+        enrollNewstudent();
+        break;
+    case "3":
+        readJson();
+        break;
+}
