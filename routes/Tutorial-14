@@ -1,1 +1,185 @@
+let express=require("express");
+let app= express();
+app.use (express.json());
+app.use(function(req,res,next){
+    res.header("Access-Control-Allow-Origin","*");
+    res.header(
+        "accesss-Control-Allow-Methods",
+        "GET,POST,OPTIONS,PUT,PATCH,DELETE,HEAD"
+    );
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin,X-Requested-With, Content-Type,Accept"
+    );
+    next();
+});
+const port=2410;
+app.listen(port,()=>console.log(`Node app listening on port ${port}!`))
 
+let baseURL="https://quiet-springs-47127.herokuapp.com/messageServer";
+// let baseURL="https://quiet-springs-47127.herokuapp.com/productServer";
+
+
+let axios=require("axios");
+const { response } = require("express");
+
+// app.get("/myserver/customers",function(req,res){
+//     axios.get(baseURL+"/customers")
+//     .then(function(response){
+//         console.log(response.data);
+//         res.send(response.data);
+//     })
+//     .catch(function(error){
+//         if(error.response){
+//             let{status,statusText}=error.response;
+//             console.log(error);
+//             console.log(status,statusText);
+//             res.status(status).send(statusText);
+//         }
+//         else res.status(404).send(error);
+//     })
+// })
+
+
+// app.get("/myserver/products",function(req,res){
+//     axios
+//     .get(baseURL+"/products")
+//     .then(function(response){
+//         console.log(response.data);
+//         res.send(response.data);
+//     })
+//     .catch(function(error){
+//         if(error.response){
+//             let{status,statusText}=error.response;
+//             console.log(status,statusText);
+//             res.status(status).send(statusText);
+//         }else res.status(404).send(error);
+//     })
+// })
+
+
+// app.get("/myserver/orders",function(req,res){
+//     let{cust,prod}=req.query;
+//     let params={};
+//     if(cust)params.cust=cust;
+//     if(prod)params.prod=prod;
+//     axios
+//     .get(baseURL+"/orders",{params:params})
+//     .then(function(response){
+//         console.log(response.data);
+//         res.send(response.data);
+//     })
+//     .catch(function(error){
+//         if(error.response){
+//             let{status,statusText}=error.response;
+//             console.log(status,statusText);
+//             res.status(status).send(statusText);
+//         }else res.status(404).send(error);
+//     })
+// })
+
+
+
+
+// app.get("/myserver/orders/customer/:cust",function(req,res){
+//     let {cust}=req.params
+//     axios
+//     .get(`${baseURL}/orders/customer/${cust}`)
+//     .then(function(response){
+//         console.log(response.data);
+//         res.send(response.data);
+//     })
+//     .catch(function(error){
+//         if(error.response){
+//             let{status,statusText}=error.response;
+//             console.log(status,statusText);
+//             res.status(status).send(statusText);
+//         }else res.status(404).send(error);
+//     })
+// })
+
+
+
+
+// app.get("/myserver/orders/product/:prod",function(req,res){
+//     let {prod}=req.params
+//     axios
+//     .get(`${baseURL}/orders/product/${prod}`)
+//     .then(function(response){
+//         console.log(response.data);
+//         res.send(response.data);
+//     })
+//     .catch(function(error){
+//         if(error.response){
+//             let{status,statusText}=error.response;
+//             console.log(status,statusText);
+//             res.status(status).send(statusText);
+//         }else res.status(404).send(error);
+//     })
+// })
+
+
+// app.post("/myserver/orders",function(req,res){
+//     let body=req.body;
+//     axios
+//     .post(baseURL+"/orders",body)
+//     .then(function(response){
+//         console.log(response.data);
+//         res.send(response.data);
+//     })
+//     .catch(function(error){
+//         if(error.response){
+//             let{status,statusText}=error.response;
+//             console.log(status,statusText);
+//             res.status(status).send(statusText);
+//         }else res.status(404).send(error);
+//     })
+// })
+
+
+
+
+app.post("/myserver2/login",function(req,res){
+    let body=req.body;
+    axios
+    .post(baseURL+"/login",body)
+    .then((response)=>{
+        console.log(response.data);
+        res.send(""+ response.data);
+    })
+    .catch(error=>{
+        if(error.response){
+            let{status,statusText}=error.response;
+            console.log(status,statusText);
+            res.status(status).send(statusText);
+        }else res.status(404).send(error);
+    });
+});
+
+
+
+
+
+
+app.post("/myserver2/messages",function(req,res){
+    let token=req.header("authorization");
+    if(!token)res.status(401).send("NO token found.Provide a valid token")
+    else{
+        let body=req.body;
+    
+    axios
+    .post(baseURL + "/messages",body,{headers:{authorization:token}})
+    .then(function(response){
+        console.log(response.data);
+        res.send(response.data)
+    })
+    .catch(function(error){
+        if(error.response){
+            console.log(error);
+            let{status,statusText}=error.response;
+            console.log(status,statusText);
+            res.status(status).send(statusText);
+        }else res.status(404).send(error);
+    });
+}
+});
